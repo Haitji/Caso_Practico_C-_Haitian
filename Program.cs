@@ -1,8 +1,15 @@
 using bootcamp_store_backend.Infraestructure.Persistence;
+using Bootcamp_store_backend.Application.Mappings;
+using Bootcamp_store_backend.Application.Services;
+using Bootcamp_store_backend.Domain.Persistence;
 using Bootcamp_store_backend.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddAutoMapper(typeof(CategoryMapperProfile));
 
 // Add services to the container.
 
