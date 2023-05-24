@@ -20,7 +20,7 @@ namespace Bootcamp_store_backend.Infrastructure.Rest
         [Produces("application/json")]
         public ActionResult<IEnumerable<CategoryDTO>> GetCategories()
         {
-            var categories = _categoryService.GetAllCategories();
+            var categories = _categoryService.GetAll();
             return Ok(categories);
         }
 
@@ -30,7 +30,7 @@ namespace Bootcamp_store_backend.Infrastructure.Rest
         {
             try
             {
-                CategoryDTO categoryDTO = _categoryService.GetCategory(id);
+                CategoryDTO categoryDTO = _categoryService.Get(id);
                 return Ok(categoryDTO);
             }catch(ElementNotFoundException)
             {
@@ -46,7 +46,7 @@ namespace Bootcamp_store_backend.Infrastructure.Rest
         {
             if (categoryDTO == null)
                 return BadRequest();
-            categoryDTO = _categoryService.InsertCategory(categoryDTO);
+            categoryDTO = _categoryService.Insert(categoryDTO);
             return CreatedAtAction(nameof(GetCategories), new { id = categoryDTO.Id}, categoryDTO);
         }
 
@@ -57,7 +57,7 @@ namespace Bootcamp_store_backend.Infrastructure.Rest
         {
             if (categoryDTO == null)
                 return BadRequest();
-            categoryDTO = _categoryService.UpdateCategory(categoryDTO);
+            categoryDTO = _categoryService.Update(categoryDTO);
             return Ok(categoryDTO);
         }
 
@@ -65,7 +65,7 @@ namespace Bootcamp_store_backend.Infrastructure.Rest
         public ActionResult DeleteCategory(long id)
         {
             try { 
-                _categoryService.DeleteCategory(id);
+                _categoryService.Delete(id);
                 return NoContent();
             }catch(ElementNotFoundException)
             {
