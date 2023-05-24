@@ -2,7 +2,7 @@
 
 namespace Bootcamp_store_backend.Application.Dtos
 {
-    public class CategoryDTO
+    public class CategoryDTO: IDto
     {
         public long Id { get; set; }
 
