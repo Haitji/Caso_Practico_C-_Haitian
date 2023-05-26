@@ -8,14 +8,14 @@ namespace Bootcamp_store_backend.Infrastructure.Rest
     public class GenericController<D>: ControllerBase
         where D : class
     {
-        private IGenericService<D> _service;
+        protected IGenericService<D> _service;
 
         public GenericController(IGenericService<D> service) {
             _service=service;
         }
         [HttpGet]
         [Produces("application/json")]
-        public ActionResult<IEnumerable<D>> Get()
+        public virtual ActionResult<IEnumerable<D>> Get()
         {
             var dto = _service.GetAll();
             return Ok(dto);
@@ -23,7 +23,7 @@ namespace Bootcamp_store_backend.Infrastructure.Rest
 
         [HttpGet("{id}")]
         [Produces("application/json")]
-        public ActionResult<D> Get(long id)
+        public virtual ActionResult<D> Get(long id)
         {
             try
             {
@@ -40,7 +40,7 @@ namespace Bootcamp_store_backend.Infrastructure.Rest
         [HttpPost]
         [Produces("application/json")]
         [Consumes("application/json")]
-        public ActionResult<D> Insertar(D dto)
+        public virtual ActionResult<D> Insertar(D dto)
         {
             if (dto == null)
                 return BadRequest();
@@ -51,7 +51,7 @@ namespace Bootcamp_store_backend.Infrastructure.Rest
         [HttpPut]
         [Produces("application/json")]
         [Consumes("application/json")]
-        public ActionResult<D> Update(D dto)
+        public virtual ActionResult<D> Update(D dto)
         {
             if (dto == null)
                 return BadRequest();
@@ -60,7 +60,7 @@ namespace Bootcamp_store_backend.Infrastructure.Rest
         }
 
         [HttpDelete("{id}")]
-        public ActionResult Delete(long id)
+        public virtual ActionResult Delete(long id)
         {
             try
             {

@@ -16,7 +16,7 @@ namespace Bootcamp_store_backend.Infrastructure.Persistence
             _dbset = _context.Set<T>();
         }
 
-        public void Delete(long id)
+        public virtual void Delete(long id)
         {
             var entity = _dbset.Find(id);
             if (entity == null)
@@ -27,12 +27,12 @@ namespace Bootcamp_store_backend.Infrastructure.Persistence
             _context.SaveChanges();
         }
 
-        public List<T> GetAll()
+        public virtual List<T> GetAll()
         {
             return _dbset.ToList<T>();
         }
 
-        public T GetById(long id)
+        public virtual T GetById(long id)
         {
             var entity = _dbset.Find(id);
             if(entity == null)
@@ -42,14 +42,14 @@ namespace Bootcamp_store_backend.Infrastructure.Persistence
             return entity;
         }
 
-        public T Insert(T entity)
+        public virtual T Insert(T entity)
         {
             _dbset.Add(entity);
             _context.SaveChanges();
             return entity;
         }
 
-        public T Update(T entity)
+        public virtual T Update(T entity)
         {
             _dbset.Update(entity);
             _context.SaveChanges();
