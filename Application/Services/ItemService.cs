@@ -19,5 +19,11 @@ namespace Bootcamp_store_backend.Application.Services
             var items = _itemRepository.GetByCategoryId(categoryId);
             return items;
         }
+
+        public PagedList<ItemDTO> GetItemsByCriteriaPaged(string? filter, PaginationParameters paginationParameters)
+        {
+            var items = _itemRepository.GetItemsByCriteriaPaged(filter, paginationParameters);
+            return _mapper.Map<PagedList<ItemDTO>>(items);
+        }
     }
 }

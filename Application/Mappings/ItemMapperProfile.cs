@@ -9,6 +9,11 @@ namespace Bootcamp_store_backend.Application.Mappings
         public ItemMapperProfile() { 
             CreateMap<Item,ItemDTO>();
             CreateMap<ItemDTO, Item>();
+            CreateMap<PagedList<Item>, PagedList<ItemDTO>>().ConvertUsing((src, dest, context) =>
+            {
+                var items = context.Mapper.Map<List<ItemDTO>>(src);
+                return new PagedList<ItemDTO>(items, src.TotalCount, src.CurrentPage, src.PageSize);
+            });
         }
     }
 }

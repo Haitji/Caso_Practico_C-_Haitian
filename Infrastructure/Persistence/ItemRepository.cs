@@ -1,17 +1,22 @@
-﻿using Bootcamp_store_backend.Application.Dtos;
+﻿using Bootcamp_store_backend.Application;
+using Bootcamp_store_backend.Application.Dtos;
 using Bootcamp_store_backend.Domain.Entities;
 using Bootcamp_store_backend.Domain.Persistence;
+using Bootcamp_store_backend.Infrastructure.Specs;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Metadata;
 
 namespace Bootcamp_store_backend.Infrastructure.Persistence
 {
     public class ItemRepository : GenericRepository<Item>, IItemRepository
     {
         private StoreContext _storeContext;
+        private readonly ISpecificationParser<Item> _specificationParser;
 
-        public ItemRepository(StoreContext storeContext) : base(storeContext)
+        public ItemRepository(StoreContext storeContext, ISpecificationParser<Item> specificationParser) : base(storeContext)
         {
             _storeContext = storeContext;
+            _specificationParser = specificationParser;
         }
 
         public List<ItemDTO> GetByCategoryId(long categoryId)
@@ -43,6 +48,8 @@ namespace Bootcamp_store_backend.Infrastructure.Persistence
             return item;
         }
 
+
+
         public override Item Insert(Item entity)
         {
             _storeContext.Items.Add(entity);
@@ -57,6 +64,26 @@ namespace Bootcamp_store_backend.Infrastructure.Persistence
             _storeContext.SaveChanges();
             _storeContext.Entry(entity).Reference(i => i.Category).Load();
             return entity;
+        }
+        
+        
+        
+        public PagedList<Item> GetItemsByCriteriaPaged(string? filter, PaginationParameters paginationParameters)
+        {
+            var items = _storeContext.Items.Include(i => i.Category).AsQueryable();
+
+            if (!string.IsNullOrEmpty(filter))
+            {
+                Specification<Item> specification = _specificationParser.ParseSpecification(filter);
+                items = specification.ApplySpecification(items);
+            }
+
+            if(!string.IsNullOrEmpty(paginationParameters.Sort))
+            {
+                items = ApplySortOrder(items, paginationParameters.Sort);
+            }
+
+            return PagedList<Item>.ToPagedList(items, paginationParameters.PageNumber,paginationParameters.PageSize);
         }
     }
 }
