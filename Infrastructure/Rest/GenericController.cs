@@ -40,7 +40,7 @@ namespace Bootcamp_store_backend.Infrastructure.Rest
         [HttpPost]
         [Produces("application/json")]
         [Consumes("application/json")]
-        public virtual ActionResult<D> Insertar(D dto)
+        public virtual ActionResult<D> Insert(D dto)
         {
             if (dto == null)
                 return BadRequest();
