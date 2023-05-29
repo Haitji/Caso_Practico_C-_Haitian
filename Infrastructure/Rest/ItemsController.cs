@@ -11,9 +11,9 @@ namespace Bootcamp_store_backend.Infrastructure.Rest
     public class ItemsController : GenericController<ItemDTO>
     {
         private IItemService _itemService;
-        private readonly ILogger _logger;
+        private readonly ILogger<CategoriesController> _logger;
 
-        public ItemsController(IItemService service, ILogger logger) : base(service)
+        public ItemsController(IItemService service, ILogger<CategoriesController> logger) : base(service)
         {
             _itemService = service;
             _logger = logger;
@@ -24,6 +24,7 @@ namespace Bootcamp_store_backend.Infrastructure.Rest
         {
             throw new NotImplementedException();
         }
+
 
 
         [HttpGet]
@@ -80,6 +81,25 @@ namespace Bootcamp_store_backend.Infrastructure.Rest
                 _logger.LogInformation("Invalid image inserting category with {dto.Id} name", dto.Id);
                 return BadRequest();
             }
+        }
+
+
+
+        [HttpPost("/store/categories/{categoryId}/items/import")]
+        [Produces("application/json")]
+        [Consumes("application/json")]
+        public ActionResult<IEnumerable<ItemDTO>> PostNewItems(long categoryId, List<ItemDTO> items)
+        {
+            try
+            {
+                List<ItemDTO> itemsDto = _itemService.postNewItemsFromCategory(categoryId, items);
+                return Ok(itemsDto);
+            }catch (InvalidImageException)
+            {
+                _logger.LogInformation("Invalid image inserting category with {categoryId} name", categoryId);
+                return BadRequest();
+            }
+
         }
     }
 }

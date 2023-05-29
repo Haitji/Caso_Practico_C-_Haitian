@@ -2,7 +2,9 @@
 using Bootcamp_store_backend.Application.Dtos;
 using Bootcamp_store_backend.Domain.Entities;
 using Bootcamp_store_backend.Domain.Persistence;
+using Bootcamp_store_backend.Infrastructure.Rest;
 using Bootcamp_store_backend.Infrastructure.Specs;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection.Metadata;
 
@@ -96,5 +98,6 @@ namespace Bootcamp_store_backend.Infrastructure.Persistence
 
             return PagedList<ItemDTO>.ToPagedList(itemsDto, paginationParameters.PageNumber,paginationParameters.PageSize);
         }
+
     }
 }
