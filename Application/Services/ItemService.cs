@@ -23,7 +23,7 @@ namespace Bootcamp_store_backend.Application.Services
         public PagedList<ItemDTO> GetItemsByCriteriaPaged(string? filter, PaginationParameters paginationParameters)
         {
             var items = _itemRepository.GetItemsByCriteriaPaged(filter, paginationParameters);
-            return _mapper.Map<PagedList<ItemDTO>>(items);
+            return items;
         }
     }
 }

@@ -5,13 +5,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Bootcamp_store_backend.Infrastructure.Rest
 {
-    [Route("stroe/[controller]")]
+    [Route("store/[controller]")]
     [ApiController]
-    public class ItemController : GenericController<ItemDTO>
+    public class ItemsController : GenericController<ItemDTO>
     {
         private IItemService _itemService;
 
-        public ItemController(IItemService service) : base(service)
+        public ItemsController(IItemService service) : base(service)
         {
             _itemService= service;
         }

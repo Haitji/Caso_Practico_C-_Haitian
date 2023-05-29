@@ -7,6 +7,6 @@ namespace Bootcamp_store_backend.Domain.Persistence
     public interface IItemRepository : IGenericRepository<Item>
     {
         List<ItemDTO> GetByCategoryId(long categoryId);
-        PagedList<Item> GetItemsByCriteriaPaged(string? filter, PaginationParameters paginationParameters);
+        PagedList<ItemDTO> GetItemsByCriteriaPaged(string? filter, PaginationParameters paginationParameters);
     }
 }

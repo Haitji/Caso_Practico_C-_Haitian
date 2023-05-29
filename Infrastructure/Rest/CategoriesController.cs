@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Bootcamp_store_backend.Infrastructure.Rest
 {
-    [Route("stroe/[controller]")]
+    [Route("store/[controller]")]
     [ApiController]
     public class CategoriesController:GenericController<CategoryDTO>
     {

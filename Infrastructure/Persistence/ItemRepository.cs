@@ -68,9 +68,9 @@ namespace Bootcamp_store_backend.Infrastructure.Persistence
         
         
         
-        public PagedList<Item> GetItemsByCriteriaPaged(string? filter, PaginationParameters paginationParameters)
+        public PagedList<ItemDTO> GetItemsByCriteriaPaged(string? filter, PaginationParameters paginationParameters)
         {
-            var items = _storeContext.Items.Include(i => i.Category).AsQueryable();
+            var items = _storeContext.Items.AsQueryable();
 
             if (!string.IsNullOrEmpty(filter))
             {
@@ -83,7 +83,18 @@ namespace Bootcamp_store_backend.Infrastructure.Persistence
                 items = ApplySortOrder(items, paginationParameters.Sort);
             }
 
-            return PagedList<Item>.ToPagedList(items, paginationParameters.PageNumber,paginationParameters.PageSize);
+            var itemsDto = items.Select(i => new ItemDTO
+            {
+                Id = i.Id,
+                Name = i.Name,
+                Description = i.Description,
+                Price = i.Price,
+                Image = i.Image,
+                CategoryId = i.CategoryId,
+                CategoryName = i.Category.Name
+            });
+
+            return PagedList<ItemDTO>.ToPagedList(itemsDto, paginationParameters.PageNumber,paginationParameters.PageSize);
         }
     }
 }
